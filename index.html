@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nishan Chakma — Moments Through My Eyes</title>
+  <meta name="description" content="Photography by Nishan Chakma — moments through my eyes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: #080808;
+      color: #f2f2f2;
+      font-family: "DM Sans", Arial, sans-serif;
+    }
+    header {
+      padding: 54px 5vw 35px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 30px;
+    }
+    .brand h1 {
+      margin: 0;
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(2.1rem, 5vw, 4.5rem);
+      font-weight: 500;
+      letter-spacing: -0.04em;
+    }
+    .brand p {
+      margin: 9px 0 0;
+      color: #929292;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      text-transform: lowercase;
+    }
+    nav a {
+      color: #aaa;
+      text-decoration: none;
+      margin-left: 22px;
+      font-size: 0.9rem;
+      transition: color .2s ease;
+    }
+    nav a:hover { color: #fff; }
+
+    main { padding: 10px 5vw 70px; }
+
+    .gallery {
+      column-count: 3;
+      column-gap: 18px;
+    }
+    .photo {
+      break-inside: avoid;
+      margin: 0 0 18px;
+      cursor: zoom-in;
+      overflow: hidden;
+      border-radius: 3px;
+      background: #111;
+    }
+    .photo img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform .45s cubic-bezier(.2,.7,.2,1), opacity .3s ease;
+    }
+    .photo:hover img {
+      transform: scale(1.025);
+      opacity: .88;
+    }
+
+    .about {
+      max-width: 680px;
+      margin: 90px auto 0;
+      padding-top: 35px;
+      border-top: 1px solid #252525;
+    }
+    .about h2 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin: 0 0 17px;
+    }
+    .about p {
+      color: #aaa;
+      line-height: 1.8;
+      font-size: 1rem;
+      margin: 0;
+    }
+    footer {
+      text-align: center;
+      color: #555;
+      font-size: .8rem;
+      padding: 30px 20px 45px;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.96);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 55px;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: 92vw;
+      max-height: 90vh;
+      object-fit: contain;
+      user-select: none;
+    }
+    .close, .prev, .next {
+      position: fixed;
+      border: 0;
+      background: transparent;
+      color: #ddd;
+      cursor: pointer;
+      font-size: 32px;
+      line-height: 1;
+      padding: 14px;
+      transition: color .2s ease, transform .2s ease;
+    }
+    .close:hover, .prev:hover, .next:hover { color: #fff; transform: scale(1.08); }
+    .close { top: 16px; right: 22px; font-size: 34px; }
+    .prev { left: 18px; top: 50%; transform: translateY(-50%); }
+    .next { right: 18px; top: 50%; transform: translateY(-50%); }
+    .prev:hover, .next:hover { transform: translateY(-50%) scale(1.08); }
+    .counter {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #777;
+      font-size: .8rem;
+      letter-spacing: .08em;
+    }
+
+    @media (max-width: 800px) {
+      header { padding-top: 35px; flex-direction: column; align-items: flex-start; }
+      nav a { margin-left: 0; margin-right: 18px; }
+      .gallery { column-count: 2; column-gap: 12px; }
+      .photo { margin-bottom: 12px; }
+      main { padding-left: 3.5vw; padding-right: 3.5vw; }
+    }
+    @media (max-width: 500px) {
+      .gallery { column-count: 1; }
+      .lightbox { padding: 35px 15px; }
+      .prev { left: 0; }
+      .next { right: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <h1>Nishan Chakma</h1>
+      <p>moments through my eyes</p>
+    </div>
+    <nav>
+      <a href="#gallery">Gallery</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="gallery" class="gallery" aria-label="Photography gallery">
+      <figure class="photo"><img src="photos/photo-01.jpg" alt="Photograph by Nishan Chakma" loading="eager"></figure>
+      <figure class="photo"><img src="photos/photo-02.jpg" alt="Photograph by Nishan Chakma" loading="lazy"></figure>
+    </section>
+
+    <section id="about" class="about">
+      <h2>About me</h2>
+      <p>This website is built because i was bored at 3 a.m.<br>
+      Credit goes to chatgpt for giving me a helping hand</p>
+    </section>
+  </main>
+
+  <footer>© 2026 Nishan Chakma</footer>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="close" id="close" aria-label="Close fullscreen viewer">×</button>
+    <button class="prev" id="prev" aria-label="Previous photo">‹</button>
+    <img id="lightboxImage" alt="">
+    <button class="next" id="next" aria-label="Next photo">›</button>
+    <div class="counter" id="counter"></div>
+  </div>
+
+  <script>
+    const photos = [...document.querySelectorAll(".photo img")];
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImage = document.getElementById("lightboxImage");
+    const counter = document.getElementById("counter");
+    let current = 0;
+
+    function showPhoto(index) {
+      current = (index + photos.length) % photos.length;
+      lightboxImage.src = photos[current].src;
+      lightboxImage.alt = photos[current].alt;
+      counter.textContent = `${current + 1} / ${photos.length}`;
+    }
+
+    function openViewer(index) {
+      showPhoto(index);
+      lightbox.classList.add("open");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeViewer() {
+      lightbox.classList.remove("open");
+      lightbox.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    photos.forEach((photo, index) => {
+      photo.parentElement.addEventListener("click", () => openViewer(index));
+    });
+
+    document.getElementById("close").addEventListener("click", closeViewer);
+    document.getElementById("prev").addEventListener("click", () => showPhoto(current - 1));
+    document.getElementById("next").addEventListener("click", () => showPhoto(current + 1));
+
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeViewer();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (!lightbox.classList.contains("open")) return;
+      if (e.key === "Escape") closeViewer();
+      if (e.key === "ArrowLeft") showPhoto(current - 1);
+      if (e.key === "ArrowRight") showPhoto(current + 1);
+    });
+
+    let touchStartX = 0;
+    lightbox.addEventListener("touchstart", e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, {passive: true});
+    lightbox.addEventListener("touchend", e => {
+      const dx = e.changedTouches[0].screenX - touchStartX;
+      if (Math.abs(dx) > 50) showPhoto(current + (dx < 0 ? 1 : -1));
+    }, {passive: true});
+  </script>
+</body>
+</html>
