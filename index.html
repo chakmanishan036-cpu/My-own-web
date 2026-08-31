@@ -169,8 +169,8 @@
 
   <main>
     <section id="gallery" class="gallery" aria-label="Photography gallery">
-      <figure class="photo"><img src="photos/photo-01.jpg" alt="Photograph by Nishan Chakma" loading="eager"></figure>
-      <figure class="photo"><img src="photos/photo-02.jpg" alt="Photograph by Nishan Chakma" loading="lazy"></figure>
+      
+      
     </section>
 
     <section id="about" class="about">
@@ -191,59 +191,101 @@
   </div>
 
   <script>
-    const photos = [...document.querySelectorAll(".photo img")];
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImage = document.getElementById("lightboxImage");
-    const counter = document.getElementById("counter");
-    let current = 0;
+const gallery = document.getElementById("gallery");
 
-    function showPhoto(index) {
-      current = (index + photos.length) % photos.length;
-      lightboxImage.src = photos[current].src;
-      lightboxImage.alt = photos[current].alt;
-      counter.textContent = `${current + 1} / ${photos.length}`;
-    }
+const lightbox = document.getElementById("lightbox");
+const lightboxImage = document.getElementById("lightboxImage");
+const counter = document.getElementById("counter");
 
-    function openViewer(index) {
-      showPhoto(index);
-      lightbox.classList.add("open");
-      lightbox.setAttribute("aria-hidden", "false");
-      document.body.style.overflow = "hidden";
-    }
+let photos = [];
+let current = 0;
 
-    function closeViewer() {
-      lightbox.classList.remove("open");
-      lightbox.setAttribute("aria-hidden", "true");
-      document.body.style.overflow = "";
-    }
+async function loadPhotos() {
+  try {
+    const response = await fetch(
+      "https://api.github.com/repos/chakmanishan036-cpu/Gallery/contents/"
+    );
+
+    const files = await response.json();
+
+    const imageFiles = files.filter(file =>
+      file.type === "file" &&
+      /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name)
+    );
+
+    imageFiles.forEach(file => {
+      const figure = document.createElement("figure");
+      figure.className = "photo";
+
+      const img = document.createElement("img");
+      img.src = file.download_url;
+      img.alt = "Photograph by Nishan Chakma";
+      img.loading = "lazy";
+
+      figure.appendChild(img);
+      gallery.appendChild(figure);
+    });
+
+    photos = [...document.querySelectorAll(".photo img")];
 
     photos.forEach((photo, index) => {
       photo.parentElement.addEventListener("click", () => openViewer(index));
     });
 
-    document.getElementById("close").addEventListener("click", closeViewer);
-    document.getElementById("prev").addEventListener("click", () => showPhoto(current - 1));
-    document.getElementById("next").addEventListener("click", () => showPhoto(current + 1));
+  } catch (error) {
+    console.error("Could not load photos:", error);
+  }
+}
 
-    lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox) closeViewer();
-    });
+function showPhoto(index) {
+  current = (index + photos.length) % photos.length;
+  lightboxImage.src = photos[current].src;
+  lightboxImage.alt = photos[current].alt;
+  counter.textContent = `${current + 1} / ${photos.length}`;
+}
 
-    document.addEventListener("keydown", (e) => {
-      if (!lightbox.classList.contains("open")) return;
-      if (e.key === "Escape") closeViewer();
-      if (e.key === "ArrowLeft") showPhoto(current - 1);
-      if (e.key === "ArrowRight") showPhoto(current + 1);
-    });
+function openViewer(index) {
+  showPhoto(index);
+  lightbox.classList.add("open");
+  lightbox.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
 
-    let touchStartX = 0;
-    lightbox.addEventListener("touchstart", e => {
-      touchStartX = e.changedTouches[0].screenX;
-    }, {passive: true});
-    lightbox.addEventListener("touchend", e => {
-      const dx = e.changedTouches[0].screenX - touchStartX;
-      if (Math.abs(dx) > 50) showPhoto(current + (dx < 0 ? 1 : -1));
-    }, {passive: true});
+function closeViewer() {
+  lightbox.classList.remove("open");
+  lightbox.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+document.getElementById("close").addEventListener("click", closeViewer);
+document.getElementById("prev").addEventListener("click", () => showPhoto(current - 1));
+document.getElementById("next").addEventListener("click", () => showPhoto(current + 1));
+
+lightbox.addEventListener("click", (e) => {
+  if (e.target === lightbox) closeViewer();
+});
+
+document.addEventListener("keydown", (e) => {
+  if (!lightbox.classList.contains("open")) return;
+  if (e.key === "Escape") closeViewer();
+  if (e.key === "ArrowLeft") showPhoto(current - 1);
+  if (e.key === "ArrowRight") showPhoto(current + 1);
+});
+
+let touchStartX = 0;
+
+lightbox.addEventListener("touchstart", e => {
+  touchStartX = e.changedTouches[0].screenX;
+}, {passive: true});
+
+lightbox.addEventListener("touchend", e => {
+  const dx = e.changedTouches[0].screenX - touchStartX;
+  if (Math.abs(dx) > 50) {
+    showPhoto(current + (dx < 0 ? 1 : -1));
+  }
+}, {passive: true});
+
+loadPhotos();
   </script>
 </body>
 </html>
